@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Play 2048</title>
+  <link rel="stylesheet" href="../styles/styles.css">
+  <style>
+    .game-container {
+      margin: 20px auto;
+      width: 400px;
+      height: 400px;
+      background: #bbada0;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+      padding: 10px;
+      position: relative;
+    }
+    .tile {
+      width: 90px;
+      height: 90px;
+      background: #cdc1b4;
+      border-radius: 5px;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 90px;
+      text-align: center;
+      color: #776e65;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      animation: pop 0.3s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .controls button {
+      padding: 10px 20px;
+      background-color: #ffcc00;
+      color: #003B6F;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .score {
+      font-size: 24px;
+      margin-top: 15px;
+      color: #ffcc00;
+    }
+    .music-toggle {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">2048 Game</div>
+  <div class="main-content">
+    <div class="score" id="score">Score: 0</div>
+    <div class="game-container" id="gameContainer"></div>
+
+    <div class="controls">
+      <button onclick="startGame()">New Game</button>
+      <img id="musicIcon" src="../img/icon2.png" alt="Toggle Music" onclick="toggleMusic()" class="music-toggle">
+    </div>
+
+    <div class="nav-button" style="margin-top: 20px;">
+      <a href="../index.html">Back to Home</a>
+    </div>
+  </div>
+
+  <audio id="backgroundMusic" src="../music/music1.mp3" loop></audio>
+
+  <script>
+    const size = 4;
+    let board = [];
+    let score = 0;
+    let musicPlaying = false;
+    const music = document.getElementById('backgroundMusic');
+    const musicIcon = document.getElementById('musicIcon');
+
+    function startGame() {
+      board = Array(size).fill().map(() => Array(size).fill(0));
+      score = 0;
+      updateScore();
+      addNumber();
+      addNumber();
+      drawBoard();
+    }
+
+    function addNumber() {
+      let options = [];
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          if (board[i][j] === 0) {
+            options.push({x: i, y: j});
+          }
+        }
+      }
+      if (options.length > 0) {
+        let spot = options[Math.floor(Math.random() * options.length)];
+        board[spot.x][spot.y] = Math.random() < 0.9 ? 2 : 4;
+      }
+    }
+
+    function drawBoard() {
+      const container = document.getElementById('gameContainer');
+      container.innerHTML = '';
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          const tile = document.createElement('div');
+          tile.className = 'tile';
+          if (board[i][j] !== 0) {
+            tile.textContent = board[i][j];
+            tile.style.background = getTileColor(board[i][j]);
+            tile.style.color = board[i][j] > 4 ? "#f9f6f2" : "#776e65";
+          }
+          container.appendChild(tile);
+        }
+      }
+    }
+
+    function getTileColor(value) {
+      switch(value) {
+        case 2: return "#eee4da";
+        case 4: return "#ede0c8";
+        case 8: return "#f2b179";
+        case 16: return "#f59563";
+        case 32: return "#f67c5f";
+        case 64: return "#f65e3b";
+        case 128: return "#edcf72";
+        case 256: return "#edcc61";
+        case 512: return "#edc850";
+        case 1024: return "#edc53f";
+        case 2048: return "#edc22e";
+        default: return "#3c3a32";
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = 'Score: ' + score;
+    }
+
+    window.addEventListener('keydown', function(e) {
+      let flipped = false;
+      let rotated = false;
+      let played = false;
+
+      switch(e.key) {
+        case "ArrowLeft":
+          // no rotate
+          break;
+        case "ArrowRight":
+          board = flipGrid(board);
+          flipped = true;
+          break;
+        case "ArrowUp":
+          board = rotateGrid(board);
+          rotated = true;
+          break;
+        case "ArrowDown":
+          board = rotateGrid(board);
+          board = flipGrid(board);
+          rotated = true;
+          flipped = true;
+          break;
+        default:
+          return;
+      }
+
+      let past = board.map(row => [...row]);
+      for (let i = 0; i < size; i++) {
+        board[i] = slide(board[i]);
+      }
+      let changed = JSON.stringify(past) !== JSON.stringify(board);
+
+      if (flipped) {
+        board = flipGrid(board);
+      }
+      if (rotated) {
+        board = unrotateGrid(board);
+      }
+
+      if (changed) {
+        addNumber();
+        drawBoard();
+      }
+    });
+
+    function slide(row) {
+      row = row.filter(val => val);
+      for (let i = 0; i < row.length-1; i++) {
+        if (row[i] === row[i+1]) {
+          row[i] *= 2;
+          score += row[i];
+          row[i+1] = 0;
+        }
+      }
+      row = row.filter(val => val);
+      while (row.length < size) {
+        row.push(0);
+      }
+      updateScore();
+      return row;
+    }
+
+    function rotateGrid(grid) {
+      let newGrid = Array(size).fill().map(() => Array(size).fill(0));
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          newGrid[i][j] = grid[j][size - 1 - i];
+        }
+      }
+      return newGrid;
+    }
+
+    function unrotateGrid(grid) {
+      let newGrid = Array(size).fill().map(() => Array(size).fill(0));
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          newGrid[i][j] = grid[size - 1 - j][i];
+        }
+      }
+      return newGrid;
+    }
+
+    function flipGrid(grid) {
+      return grid.map(row => row.reverse());
+    }
+
+    function toggleMusic() {
+      if (musicPlaying) {
+        music.volume = 0;
+        musicIcon.src = '../img/icon2.png';
+        musicPlaying = false;
+      } else {
+        music.volume = 0.5;
+        music.play();
+        musicIcon.src = '../img/icon1.png';
+        musicPlaying = true;
+      }
+    }
+
+    window.onload = function() {
+      music.volume = 0;
+      music.play();
+    }
+
+    startGame();
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+/* Общие стили для всей страницы */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* Контейнер всей страницы */
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Заголовок */
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #003B6F;
+}
+
+/* Видео трейлер */
+video {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border-radius: 10px;
+  margin: 20px auto;
+  display: block;
+}
+
+/* Секция с приглашением */
+.invitation {
+  background: #ffffff;
+  padding: 20px;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+/* Галерея изображений */
+.gallery {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.gallery img {
+  width: 250px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Секция анкеты */
+.form-section {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 50px auto;
+}
+
+/* Заголовок анкеты */
+.form-section h2 {
+  margin-bottom: 20px;
+  color: #003B6F;
+}
+
+/* Сетка анкеты */
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form-grid > div {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Метки и поля ввода */
+label {
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+/* Чекбокс */
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+/* Кнопка отправки */
+.submit-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.button {
+  padding: 12px 30px;
+  background-color: #003B6F;
+  color: #ffffff;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0052A5;
+}
+
+/* Сообщение об отправке */
+.message {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Кнопки навигации */
+.nav-button {
+  margin-top: 30px;
+}
+
+.nav-button a {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #ffcc00;
+  color: #003B6F;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button a:hover {
+  background-color: #ffd633;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .gallery img {
+    width: 80%;
+    height: auto;
+  }
+
+  .form-grid {
+    flex-direction: column;
+  }
+}

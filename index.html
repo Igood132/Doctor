@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Who</title>
+  <link rel="stylesheet" href="styles/styles2.css">
+</head>
+<body>
+  <div class="wrapper">
+    <div style="text-align: right; margin-bottom: 10px;">
+      <img src="img/F1.jpg" alt="English" style="width: 40px; cursor: pointer;" onclick="setLanguage('en')" />
+      <img src="img/F2.jpg" alt="Українська" style="width: 40px; cursor: pointer;" onclick="setLanguage('ua')" />
+    </div>
+
+    <h1 data-i18n="title">Doctor Who - Season 5 Trailer</h1>
+
+    <video controls>
+      <source src="video/tr.mp4" type="video/mp4" />
+      Your browser does not support video playback.
+    </video>
+
+    <div class="invitation">
+      <p data-i18n="invitation">
+        Join us in watching season 5 of "Doctor Who"!<br><br>
+        "Doctor Who" is a legendary British sci-fi series about the adventures of a mysterious Time Lord known as the Doctor.<br><br>
+        Vote below and let us know which version of the Doctor is your favorite!
+      </p>
+    </div>
+
+    <div class="gallery">
+      <img src="img/1.jpg" alt="Doctor Who 1" />
+      <img src="img/2.jpg" alt="Doctor Who 2" />
+      <img src="img/3.jpg" alt="Doctor Who 3" />
+    </div>
+
+    <div class="form-section">
+      <h2 data-i18n="whichDoctor">Which Doctor do you like the most?</h2>
+      <form id="surveyForm">
+        <div class="form-grid">
+          <div>
+            <label for="fullname" data-i18n="fullName">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" />
+          </div>
+          <div>
+            <label for="email" data-i18n="email">Email Address:</label>
+            <input type="email" id="email" name="email" />
+          </div>
+          <div>
+            <label for="doctorChoice" data-i18n="chooseDoctor">Choose your favorite Doctor:</label>
+            <select id="doctorChoice" name="doctorChoice">
+              <option value="">-- Select Doctor --</option>
+              <option>1st Doctor</option>
+              <option>2nd Doctor</option>
+              <option>3rd Doctor</option>
+              <option>4th Doctor</option>
+              <option>5th Doctor</option>
+              <option>6th Doctor</option>
+              <option>7th Doctor</option>
+              <option>8th Doctor</option>
+              <option>9th Doctor</option>
+              <option>10th Doctor</option>
+              <option>11th Doctor</option>
+              <option>12th Doctor</option>
+              <option>13th Doctor</option>
+              <option>14th Doctor</option>
+            </select>
+          </div>
+          <div>
+            <label for="visibility" data-i18n="visibility">Do you want your answer to be:</label>
+            <select id="visibility" name="visibility">
+              <option value="">-- Select --</option>
+              <option>Anonymous</option>
+              <option>Public</option>
+            </select>
+          </div>
+        </div>
+        <div class="checkbox">
+          <label for="ageCheck" data-i18n="ageCheck">I am 13 years old or older</label>
+          <input type="checkbox" id="ageCheck" />
+        </div>
+        <div class="submit-container">
+          <button type="submit" class="button" data-i18n="submit">Submit</button>
+          <div class="message" id="formMessage"></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="nav-button">
+      <a href="index/index2.html" data-i18n="goToGallery">Go to Gallery Page</a>
+    </div>
+
+    <div class="nav-button" style="margin-top: 10px;">
+      <a href="index/game.html" data-i18n="goToGame">Go to the Game</a>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Doctor Who - Season 5 Trailer",
+        invitation: `Join us in watching season 5 of "Doctor Who"!<br><br>
+          "Doctor Who" is a legendary British sci-fi series about the adventures of a mysterious Time Lord known as the Doctor.<br><br>
+          Vote below and let us know which version of the Doctor is your favorite!`,
+        whichDoctor: "Which Doctor do you like the most?",
+        fullName: "Full Name:",
+        email: "Email Address:",
+        chooseDoctor: "Choose your favorite Doctor:",
+        visibility: "Do you want your answer to be:",
+        selectDoctor: "-- Select Doctor --",
+        selectVisibility: "-- Select --",
+        anonymous: "Anonymous",
+        public: "Public",
+        ageCheck: "I am 13 years old or older",
+        submit: "Submit",
+        goToGallery: "Go to Gallery Page",
+        goToGame: "Go to the Game",
+        dataSent: "Data sent!",
+        welcomeDoctor: "Welcome back, Doctor! Adventures await you!"
+      },
+      ua: {
+        title: "Доктор Хто - Трейлер 5 сезону",
+        invitation: `Приєднуйтесь до перегляду 5 сезону серіалу "Доктор Хто"!<br><br>
+          "Доктор Хто" — легендарний британський науково-фантастичний серіал про пригоди таємничого Повелителя Часу, відомого як Доктор.<br><br>
+          Голосуйте нижче та скажіть нам, яка версія Доктора вам найбільше подобається!`,
+        whichDoctor: "Який Доктор вам найбільше подобається?",
+        fullName: "Повне ім’я:",
+        email: "Електронна адреса:",
+        chooseDoctor: "Обирайте улюбленого Доктора:",
+        visibility: "Вашу відповідь буде видно:",
+        selectDoctor: "-- Виберіть Доктора --",
+        selectVisibility: "-- Виберіть --",
+        anonymous: "Анонімно",
+        public: "Публічно",
+        ageCheck: "Мені 13 років або більше",
+        submit: "Надіслати",
+        goToGallery: "Перейти до галереї",
+        goToGame: "Перейти до гри",
+        dataSent: "Дані надіслані!",
+        welcomeDoctor: "Ласкаво просимо назад, Докторе! Вас чекають пригоди!"
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          if (el.tagName === "INPUT" || el.tagName === "SELECT") {
+            el.placeholder = translations[lang][key];
+          } else {
+            el.innerHTML = translations[lang][key];
+          }
+        }
+      });
+
+      const doctorSelect = document.getElementById('doctorChoice');
+      const visibilitySelect = document.getElementById('visibility');
+      if (lang === 'ua') {
+        doctorSelect.options[0].text = translations.ua.selectDoctor;
+        visibilitySelect.options[0].text = translations.ua.selectVisibility;
+        visibilitySelect.options[1].text = translations.ua.anonymous;
+        visibilitySelect.options[2].text = translations.ua.public;
+      } else {
+        doctorSelect.options[0].text = translations.en.selectDoctor;
+        visibilitySelect.options[0].text = translations.en.selectVisibility;
+        visibilitySelect.options[1].text = translations.en.anonymous;
+        visibilitySelect.options[2].text = translations.en.public;
+      }
+      document.querySelector('button[type="submit"]').textContent = translations[lang].submit;
+    }
+
+    const form = document.getElementById('surveyForm');
+    const formMessage = document.getElementById('formMessage');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const fullName = document.getElementById('fullname').value.trim().toLowerCase();
+      if (fullName === 'doctor' || fullName === 'доктор') {
+        formMessage.textContent = translations[currentLang].welcomeDoctor;
+      } else {
+        formMessage.textContent = translations[currentLang].dataSent;
+      }
+      formMessage.style.color = '#28a745';
+    });
+  </script>
+</body>
+</html>
